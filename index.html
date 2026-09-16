@@ -886,7 +886,7 @@ html[data-theme="light"] .home-button{background:#fff;border-color:#cbd7e6;color
   function advance(){const c=companies[current];if(currentItem<c.items.length-1)paint(current,currentItem+1);else paint(current+1,0)}
   function start(){clearInterval(timer);timer=setInterval(advance,2800)}
   tabs.forEach((b,i)=>b.addEventListener('click',()=>{paint(current,i);start()}));
-  voiceChoice.addEventListener('change',()=>{voiceStatus.textContent=(voiceChoice.value==='suru'?'Suru (female)':'Sky (male)')+' selected.'});
+
  const params=new URLSearchParams(location.search),forced=params.get('company'),forcedItem=params.get('item'),paused=params.get('pauseMotion')==='1';paint(forced!==null?+forced:0,forcedItem!==null?+forcedItem:0,true);if(paused){progress.style.animationPlayState='paused'}else start()
 })();
 </script>
@@ -967,7 +967,7 @@ html[data-theme="light"] .home-button{background:#fff;border-color:#cbd7e6;color
   function choose(blocked){if(locked)return;locked=true;[$('gameBlock'),$('gameApprove')].forEach(b=>b.disabled=true);const x=current,correct=blocked===x.risk;const card=$('txCard'),feedback=$('txFeedback');if(correct){score+=100+Math.max(0,time);card.classList.add('correct','game-pop');feedback.className='tx-feedback good';feedback.textContent=x.risk?'Good catch — high-risk pattern blocked.':'Approved — low friction for a trusted customer.'}else{lives--;card.classList.add('wrong','game-shake');feedback.className='tx-feedback bad';feedback.textContent=x.risk?'Missed risk — this pattern needed a block.':'False decline — a good customer was stopped.'}$('gameScore').textContent=String(score).padStart(3,'0');$('gameLives').textContent='♥'.repeat(lives)+'♡'.repeat(3-lives);setTimeout(()=>{if(lives<=0)finish();else{index++;render()}},720)}
   function finish(){clearInterval(timer);timer=null;$('gameFinalScore').textContent=score;let title='Good first pass.',copy='Every signal matters. Try again to protect more payments with less friction.';if(score>=700){title='Risk radar: elite.';copy='You balanced fraud prevention with a smooth customer journey.'}else if(score>=400){title='Sharp product instincts.';copy='You kept the payment journey moving while watching the right risk signals.'}$('gameResultTitle').textContent=title;$('gameResultCopy').textContent=copy;screen($('gameEnd'))}
   $('gameStartBtn').addEventListener('click',start);$('gameAgain').addEventListener('click',start);$('gameBlock').addEventListener('click',()=>choose(true));$('gameApprove').addEventListener('click',()=>choose(false));
-  voiceChoice.addEventListener('change',()=>{voiceStatus.textContent=(voiceChoice.value==='suru'?'Suru (female)':'Sky (male)')+' selected.'});
+
  const params=new URLSearchParams(location.search),preview=params.get('gamePreview');if(preview==='play'){document.body.classList.add('game-preview');screen($('gamePlay'));score=421;lives=2;time=18;$('gameScore').textContent='421';$('gameTime').textContent='18';$('gameLives').textContent='♥♥♡';const skip=Math.max(0,Math.min(12,Number(params.get('gameRound'))||0));for(let i=0;i<skip;i++)makeRound();render()}else if(preview==='end'){score=742;$('gameFinalScore').textContent='742';$('gameResultTitle').textContent='Risk radar: elite.';$('gameResultCopy').textContent='You balanced fraud prevention with a smooth customer journey.';screen($('gameEnd'))}
 })();
 </script>
